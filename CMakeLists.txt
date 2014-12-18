@@ -1,4 +1,8 @@
 project(tess)
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_MODULE_PATH ${CMAKE_HOME_DIRECTORY}/cmake)
+set(CMAKE_FRAMEWORK_PATH "lib/osx")
+find_package(SDL2 REQUIRED)
+find_package(OpenGL REQUIRED)
 add_executable(tess main.cpp)
+target_link_libraries(tess ${SDL2_LIBRARY} ${OPENGL_LIBRARIES})
