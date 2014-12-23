@@ -1,7 +1,7 @@
 #include "pointless/Shader.h"
 
 void loadData() {
-	Pointless::Shader* shader = Pointless::Shader::loadFromFile(L"data/shaders/vertex_shader.glsl", L"data/shaders/pixel_shader.glsl");
+    std::shared_ptr<Pointless::Shader> shader = Pointless::Shader::loadFromFile("data/shaders/vertex_shader.glsl", "data/shaders/pixel_shader.glsl");
 }
 
 int main(int argc, char *argv[]) {

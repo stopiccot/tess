@@ -2,6 +2,7 @@
 #define POINTLESS_COMMON_H
 
 #include <stdint.h>
+#include <unistd.h>
 #include <vector>
 
 #ifdef _WIN32

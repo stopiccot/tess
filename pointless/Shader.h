@@ -8,7 +8,13 @@ namespace Pointless
 	class Shader
 	{
 	public:
-		static Shader* loadFromFile(const wchar_t* vertexShader, const wchar_t* pixelShader);
+        static std::shared_ptr<Shader> loadFromFile(const char* vertexShaderFile, const char* fragmentShaderFile);
+    private:
+        GLuint program;
+        GLuint vertexShader;
+        GLuint fragmentShader;
+        
+        static GLuint compileShaderComponent(GLenum type, const char* shaderFile);
 	};
 }
 
