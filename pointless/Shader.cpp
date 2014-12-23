@@ -63,5 +63,42 @@ std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const
     glAttachShader(result->program, result->vertexShader);
     glAttachShader(result->program, result->fragmentShader);
     
+    // Bind attribute locations this needs to be done prior to linking
+    //glBindAttribLocation(result->program, Shader::ATTRIB_VERTEX,   "position");
+    //glBindAttribLocation(result->program, Shader::ATTRIB_TEXCOORD, "uv");
+    //glBindAttribLocation(result->program, Shader::ATTRIB_COLOR,    "color");
+    
+    // link program
+    glLinkProgram(result->program);
+    
+    // Print link log
+    GLint logLength = 0;
+    glGetProgramiv(result->program, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        std::vector<GLchar> log(logLength);
+        glGetProgramInfoLog(result->program, logLength, &logLength, &log[0]);
+        printf("shader link log: %s\n", &log[0]);
+    }
+    
+    // Delete shader parts
+    if (result->vertexShader != 0) {
+        glDeleteShader(result->vertexShader);
+    }
+    
+    if (result->fragmentShader != 0) {
+        glDeleteShader(result->fragmentShader);
+    }
+    
+    // Check if shader was linked successfully
+    GLint status;
+    glGetProgramiv(result->program, GL_LINK_STATUS, &status);
+    if (status == 0) {
+        printf("Failed to compile shader program");
+        if (result->program != 0) {
+            glDeleteProgram(result->program);
+        }
+        return nullptr;
+    }
+    
 	return result;
 }
