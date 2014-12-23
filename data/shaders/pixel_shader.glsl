@@ -1,3 +1,5 @@
+#version 400
+
 uniform sampler2D tex0;
 varying vec2 uvVarying;
 

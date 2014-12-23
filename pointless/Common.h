@@ -2,8 +2,8 @@
 #define POINTLESS_COMMON_H
 
 #include <stdint.h>
-#include <unistd.h>
 #include <vector>
+#include <memory>
 
 #ifdef _WIN32
 	#define GLEW_BUILD GLEW_STATIC
