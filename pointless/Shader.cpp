@@ -25,6 +25,7 @@ std::vector<uint8_t> loadFileContentsToBuffer(const char* filename) {
 
 GLuint Shader::compileShaderComponent(GLenum type, const char* shaderFile) {
     std::vector<uint8_t> shaderSource = loadFileContentsToBuffer(shaderFile);
+    shaderSource.push_back(0);
     
     GLuint shader = glCreateShader(type);
     const GLchar* source = (GLchar*)&shaderSource[0];
@@ -64,9 +65,10 @@ std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const
     glAttachShader(result->program, result->fragmentShader);
     
     // Bind attribute locations this needs to be done prior to linking
-    //glBindAttribLocation(result->program, Shader::ATTRIB_VERTEX,   "position");
-    //glBindAttribLocation(result->program, Shader::ATTRIB_TEXCOORD, "uv");
-    //glBindAttribLocation(result->program, Shader::ATTRIB_COLOR,    "color");
+    glBindAttribLocation(result->program, Shader::ATTRIB_VERTEX,    "position");
+    glBindAttribLocation(result->program, Shader::ATTRIB_TEXCOORD0, "uv");
+    glBindAttribLocation(result->program, Shader::ATTRIB_TEXCOORD1, "uv2");
+    glBindAttribLocation(result->program, Shader::ATTRIB_COLOR,     "color");
     
     // link program
     glLinkProgram(result->program);
@@ -77,7 +79,7 @@ std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const
     if (logLength > 0) {
         std::vector<GLchar> log(logLength);
         glGetProgramInfoLog(result->program, logLength, &logLength, &log[0]);
-        printf("shader link log: %s\n", &log[0]);
+        printf("shader link log:\n%s\n", &log[0]);
     }
     
     // Delete shader parts
