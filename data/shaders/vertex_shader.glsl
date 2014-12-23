@@ -1,9 +1,9 @@
 #version 400
 
-attribute vec3 position;
-attribute vec2 uv;
+in vec3 position;
+in vec2 uv;
 
-varying vec2 uvVarying;
+out vec2 uvVarying;
 
 uniform mat4 MODELVIEW;
 

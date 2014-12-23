@@ -104,3 +104,7 @@ std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const
     
 	return result;
 }
+
+void Shader::bind() {
+	glUseProgram(program);
+}

@@ -12,6 +12,8 @@ namespace Pointless
         const static int ATTRIB_TEXCOORD0 = 1;
         const static int ATTRIB_TEXCOORD1 = 2;
         const static int ATTRIB_COLOR     = 3;
+
+		void bind();
         
         static std::shared_ptr<Shader> loadFromFile(const char* vertexShaderFile, const char* fragmentShaderFile);
         

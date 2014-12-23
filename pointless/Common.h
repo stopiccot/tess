@@ -6,6 +6,7 @@
 #include <memory>
 
 #ifdef _WIN32
+	#include <direct.h>
 	#define GLEW_BUILD GLEW_STATIC
 	#include <GL/glew.h>
 	#include <SDL.h>

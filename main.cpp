@@ -61,7 +61,18 @@ int main(int argc, char *argv[]) {
 	glewInit();
 #endif
 
+	char buffer[10 * 1024];
+	printf("CURRENT DIR: \"%s\"\n", _getcwd(buffer, sizeof(buffer)));
+
+	printf("GL_VERSION %s\n", glGetString(GL_VERSION));
+	printf("GL_VENDOR %s\n", glGetString(GL_VENDOR));
+	printf("GL_RENDERER %s\n", glGetString(GL_RENDERER));
+
 	loadData();
+
+	while (true) {
+		
+	}
 
     bool stop = false;
     while (!stop) {
@@ -79,6 +90,8 @@ int main(int argc, char *argv[]) {
         
         glClearColor(0.2f, 0.2f, 0.2f, 0.2f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+		shader->bind();
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
