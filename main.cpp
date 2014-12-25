@@ -1,31 +1,15 @@
 #include "pointless/Shader.h"
 
-struct vec2 {
-    float u;
-    float v;
-    
-    vec2() : u(0.0f), v(0.0f) {}
-    vec2(float u, float v) : u(u), v(v) {}
-};
-
-struct vec3 {
-    float x;
-    float y;
-    float z;
-    
-    vec3() : x(0.0f), y(0.0f), z(0.0f) {}
-    vec3(float x, float y, float z) : x(x), y(y), z(z) {}
-};
-
 struct Vertex {
-    vec3 position;
-    vec2 uv;
+    Pointless::vec3 position;
+    Pointless::vec2 uv;
     
     Vertex() : position(0.0f, 0.0f, 0.0f), uv(0.0f, 0.0f) {}
-    Vertex(const vec3& position, const vec2& uv) : position(position), uv(uv) {}
+    Vertex(const Pointless::vec3& position, const Pointless::vec2& uv) : position(position), uv(uv) {}
 };
 
 GLuint vertexBuffer;
+GLuint vertexArray;
 std::shared_ptr<Pointless::Shader> shader;
 
 void loadData() {
@@ -33,17 +17,20 @@ void loadData() {
     
     std::vector<Vertex> vertices;
     
-    vertices.push_back(Vertex(vec3(-0.5f,  0.5f, 0.0f), vec2(0.0f, 0.0f)));
-    vertices.push_back(Vertex(vec3( 0.5f,  0.5f, 0.0f), vec2(1.0f, 0.0f)));
-    vertices.push_back(Vertex(vec3( 0.5f, -0.5f, 0.0f), vec2(1.0f, 1.0f)));
+    vertices.push_back(Vertex(Pointless::vec3(-0.5f,  0.5f, 0.0f), Pointless::vec2(0.0f, 0.0f)));
+    vertices.push_back(Vertex(Pointless::vec3( 0.5f,  0.5f, 0.0f), Pointless::vec2(1.0f, 0.0f)));
+    vertices.push_back(Vertex(Pointless::vec3( 0.5f, -0.5f, 0.0f), Pointless::vec2(1.0f, 1.0f)));
 
-    vertices.push_back(Vertex(vec3(-0.5f,  0.5f, 0.0f), vec2(0.0f, 0.0f)));
-    vertices.push_back(Vertex(vec3( 0.5f, -0.5f, 0.0f), vec2(1.0f, 1.0f)));
-    vertices.push_back(Vertex(vec3(-0.5f, -0.5f, 0.0f), vec2(0.0f, 1.0f)));
+    vertices.push_back(Vertex(Pointless::vec3(-0.5f,  0.5f, 0.0f), Pointless::vec2(0.0f, 0.0f)));
+    vertices.push_back(Vertex(Pointless::vec3( 0.5f, -0.5f, 0.0f), Pointless::vec2(1.0f, 1.0f)));
+    vertices.push_back(Vertex(Pointless::vec3(-0.5f, -0.5f, 0.0f), Pointless::vec2(0.0f, 1.0f)));
     
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    
+    glGenVertexArrays(1, &vertexArray);
+    glBindVertexArray(vertexArray);
     
     glEnableVertexAttribArray(Pointless::Shader::ATTRIB_VERTEX);
     glEnableVertexAttribArray(Pointless::Shader::ATTRIB_TEXCOORD0);
