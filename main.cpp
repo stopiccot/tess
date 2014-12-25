@@ -55,24 +55,28 @@ void loadData() {
 int main(int argc, char *argv[]) {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     SDL_Window* sdlWindow = SDL_CreateWindow("tess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GLContext context = SDL_GL_CreateContext(sdlWindow);
+    if (!context) {
+        printf("SDL ERROR: \"%s\"", SDL_GetError());
+    }
 
 #ifdef _WIN32
 	glewInit();
 #endif
 
 	char buffer[10 * 1024];
+#ifdef _WIN32
 	printf("CURRENT DIR: \"%s\"\n", _getcwd(buffer, sizeof(buffer)));
+#else
+    printf("CURRENT DIR: \"%s\"\n", getcwd(buffer, sizeof(buffer)));
+#endif
 
 	printf("GL_VERSION %s\n", glGetString(GL_VERSION));
 	printf("GL_VENDOR %s\n", glGetString(GL_VENDOR));
 	printf("GL_RENDERER %s\n", glGetString(GL_RENDERER));
 
 	loadData();
-
-	while (true) {
-		
-	}
 
     bool stop = false;
     while (!stop) {
