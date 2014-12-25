@@ -1,4 +1,5 @@
 #include "pointless/Shader.h"
+#include "pointless/Mesh.h"
 
 struct Vertex {
     Pointless::vec3 position;
@@ -8,6 +9,7 @@ struct Vertex {
     Vertex(const Pointless::vec3& position, const Pointless::vec2& uv) : position(position), uv(uv) {}
 };
 
+GLuint indexBuffer;
 GLuint vertexBuffer;
 GLuint vertexArray;
 std::shared_ptr<Pointless::Shader> shader;
@@ -15,19 +17,28 @@ std::shared_ptr<Pointless::Shader> shader;
 void loadData() {
     shader = Pointless::Shader::loadFromFile("data/shaders/vertex_shader.glsl", "data/shaders/pixel_shader.glsl");
     
+    Pointless::Mesh mesh;
+    
+    mesh.vertices = { { -0.5f, 0.5f, 0.0f }, { 0.5f, 0.5f, 0.0f }, { 0.5f, -0.5f, 0.0f }, { -0.5f, -0.5f, 0.0f } };
+    mesh.uvs = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
+    mesh.indicies = { 0, 1, 2, 0, 2, 3 };
+    
     std::vector<Vertex> vertices;
     
     vertices.push_back(Vertex(Pointless::vec3(-0.5f,  0.5f, 0.0f), Pointless::vec2(0.0f, 0.0f)));
     vertices.push_back(Vertex(Pointless::vec3( 0.5f,  0.5f, 0.0f), Pointless::vec2(1.0f, 0.0f)));
     vertices.push_back(Vertex(Pointless::vec3( 0.5f, -0.5f, 0.0f), Pointless::vec2(1.0f, 1.0f)));
-
-    vertices.push_back(Vertex(Pointless::vec3(-0.5f,  0.5f, 0.0f), Pointless::vec2(0.0f, 0.0f)));
-    vertices.push_back(Vertex(Pointless::vec3( 0.5f, -0.5f, 0.0f), Pointless::vec2(1.0f, 1.0f)));
     vertices.push_back(Vertex(Pointless::vec3(-0.5f, -0.5f, 0.0f), Pointless::vec2(0.0f, 1.0f)));
+    
+    std::vector<uint16_t> indicies = { 0, 1, 2, 0, 2, 3 };
     
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * indicies.size(), &indicies[0], GL_STATIC_DRAW);
     
     glGenVertexArrays(1, &vertexArray);
     glBindVertexArray(vertexArray);
@@ -84,7 +95,8 @@ int main(int argc, char *argv[]) {
 
 		shader->bind();
         
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
         
         SDL_GL_SwapWindow(sdlWindow);
     }
