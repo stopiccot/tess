@@ -8,7 +8,7 @@ namespace Pointless
 	class Texture
 	{
 	public:
-		//...
+		static std::shared_ptr<Texture> loadFromFile(const char* filename);
 	private:
 		//...
 	};

@@ -34,7 +34,13 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif()	
 
 # Target
-add_executable(tess main.cpp pointless/Common.h pointless/Mesh.h pointless/Texture.h pointless/Shader.h pointless/Shader.cpp)
+add_executable(tess 
+	main.cpp
+	pointless/Common.h
+	pointless/Mesh.h
+	pointless/Texture.h pointless/Texture.cpp
+	pointless/Shader.h pointless/Shader.cpp
+)
 
 # Libs
 target_link_libraries(tess ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES})
