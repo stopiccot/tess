@@ -12,6 +12,7 @@ namespace Pointless
 		std::vector<vec2> uvs;
 		std::vector<uint16_t> indicies;
 	private:
+		//...
 	};
 }
 
