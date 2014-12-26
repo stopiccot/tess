@@ -105,6 +105,14 @@ std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const
 	return result;
 }
 
+GLint Shader::getUniform(const char* varName) {
+    GLint varGLHandle = glGetUniformLocation(program, varName);
+    if (varGLHandle < 0) {
+        printf("ERROR GETTING UNIFORM VAR \"%s\"\n", varName);
+    }
+    return varGLHandle;
+}
+
 void Shader::bind() {
 	glUseProgram(program);
 }

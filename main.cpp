@@ -1,22 +1,17 @@
 #include "pointless/Shader.h"
 #include "pointless/Mesh.h"
-
-struct Vertex {
-    Pointless::vec3 position;
-    Pointless::vec2 uv;
-    
-    Vertex() : position(0.0f, 0.0f, 0.0f), uv(0.0f, 0.0f) {}
-    Vertex(const Pointless::vec3& position, const Pointless::vec2& uv) : position(position), uv(uv) {}
-};
+#include "pointless/Texture.h"
 
 GLuint indexBuffer;
 GLuint vertexBufferPosition;
 GLuint vertexBufferUv;
 GLuint vertexArray;
 std::shared_ptr<Pointless::Shader> shader;
+std::shared_ptr<Pointless::Texture> texture;
 
 void loadData() {
     shader = Pointless::Shader::loadFromFile("data/shaders/vertex_shader.glsl", "data/shaders/pixel_shader.glsl");
+    texture = Pointless::Texture::loadFromFile("data/textures/wall_color_512.png");
     
     Pointless::Mesh mesh;
     
@@ -53,6 +48,7 @@ void loadData() {
 
 int main(int argc, char *argv[]) {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    IMG_Init(IMG_INIT_PNG);
     SDL_Window* sdlWindow = SDL_CreateWindow("tess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GLContext context = SDL_GL_CreateContext(sdlWindow);
@@ -94,7 +90,11 @@ int main(int argc, char *argv[]) {
         glClearColor(0.2f, 0.2f, 0.2f, 0.2f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture->glHandle);
 		shader->bind();
+        GLint tex0 = shader->getUniform("tex0");
+        glUniform1i(tex0, 0);
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);

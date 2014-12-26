@@ -16,6 +16,8 @@ namespace Pointless
 		void bind();
         
         static std::shared_ptr<Shader> loadFromFile(const char* vertexShaderFile, const char* fragmentShaderFile);
+
+        GLint getUniform(const char* varName);
         
     private:
         GLuint program;

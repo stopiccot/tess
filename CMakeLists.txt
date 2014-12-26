@@ -18,8 +18,13 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
+endif()
+
 # Find all needed pacakges
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
 find_package(OpenGL REQUIRED)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
@@ -43,7 +48,7 @@ add_executable(tess
 )
 
 # Libs
-target_link_libraries(tess ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES})
+target_link_libraries(tess ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${OPENGL_LIBRARIES})
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	target_link_libraries(tess ${GLEW_LIBRARY})

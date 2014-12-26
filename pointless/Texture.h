@@ -9,8 +9,8 @@ namespace Pointless
 	{
 	public:
 		static std::shared_ptr<Texture> loadFromFile(const char* filename);
-	private:
-		//...
+//	private:
+        GLuint glHandle;
 	};
 }
 
