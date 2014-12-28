@@ -11,7 +11,7 @@ std::shared_ptr<Pointless::Texture> texture;
 
 void loadData() {
     shader = Pointless::Shader::loadFromFile("../data/shaders/vertex_shader.glsl", "../data/shaders/pixel_shader.glsl");
-    texture = Pointless::Texture::loadFromFile("../data/textures/wall_color_512.tif");
+    texture = Pointless::Texture::loadFromFile("../data/textures/wall_color_512.png");
     
     Pointless::Mesh mesh;
     

@@ -29,6 +29,7 @@ std::shared_ptr<Texture> Texture::loadFromFile(const char* filename) {
     }
     if (surface->format->format == SDL_PIXELFORMAT_RGB888) {
         printf("SDL_PIXELFORMAT_RGB888");
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, surface->pixels);
     }
     if (surface->format->format == SDL_PIXELFORMAT_BGRX8888) {
         printf("SDL_PIXELFORMAT_BGRX8888");
