@@ -10,8 +10,8 @@ std::shared_ptr<Pointless::Shader> shader;
 std::shared_ptr<Pointless::Texture> texture;
 
 void loadData() {
-    shader = Pointless::Shader::loadFromFile("data/shaders/vertex_shader.glsl", "data/shaders/pixel_shader.glsl");
-    texture = Pointless::Texture::loadFromFile("data/textures/wall_color_512.png");
+    shader = Pointless::Shader::loadFromFile("../data/shaders/vertex_shader.glsl", "../data/shaders/pixel_shader.glsl");
+    texture = Pointless::Texture::loadFromFile("../data/textures/wall_color_512.png");
     
     Pointless::Mesh mesh;
     
@@ -90,12 +90,14 @@ int main(int argc, char *argv[]) {
         glClearColor(0.2f, 0.2f, 0.2f, 0.2f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE0 + 0);
         glBindTexture(GL_TEXTURE_2D, texture->glHandle);
+
 		shader->bind();
+		
         GLint tex0 = shader->getUniform("tex0");
         glUniform1i(tex0, 0);
-        
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
         
