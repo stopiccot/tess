@@ -11,8 +11,13 @@ namespace Pointless
 		std::vector<vec3> vertices;
 		std::vector<vec2> uvs;
 		std::vector<uint16_t> indicies;
-	private:
-		//...
+        
+        void bake();
+//	private:
+		GLuint indexBuffer;
+		GLuint vertexBufferPosition;
+		GLuint vertexBufferUv;
+		GLuint vertexArray;
 	};
 }
 

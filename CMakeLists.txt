@@ -44,7 +44,7 @@ endif()
 add_executable(tess 
 	main.cpp
 	pointless/Common.h
-	pointless/Mesh.h
+	pointless/Mesh.h pointless/Mesh.cpp
 	pointless/Texture.h pointless/Texture.cpp
 	pointless/Shader.h pointless/Shader.cpp
 )
