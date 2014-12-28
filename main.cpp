@@ -11,7 +11,7 @@ std::shared_ptr<Pointless::Texture> texture;
 
 void loadData() {
     shader = Pointless::Shader::loadFromFile("../data/shaders/vertex_shader.glsl", "../data/shaders/pixel_shader.glsl");
-    texture = Pointless::Texture::loadFromFile("../data/textures/wall_color_512.png");
+    texture = Pointless::Texture::loadFromFile("../data/textures/wall_color_512.tif");
     
     Pointless::Mesh mesh;
     
@@ -48,7 +48,7 @@ void loadData() {
 
 int main(int argc, char *argv[]) {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-    IMG_Init(IMG_INIT_PNG);
+    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG | IMG_INIT_TIF);
     SDL_Window* sdlWindow = SDL_CreateWindow("tess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GLContext context = SDL_GL_CreateContext(sdlWindow);
