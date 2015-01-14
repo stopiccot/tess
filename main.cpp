@@ -1,6 +1,7 @@
 #include "pointless/Shader.h"
 #include "pointless/Mesh.h"
 #include "pointless/Texture.h"
+#include "pointless/Camera.h"
 
 std::shared_ptr<Pointless::Shader> shader;
 std::shared_ptr<Pointless::Texture> texture;
@@ -46,6 +47,8 @@ int main(int argc, char *argv[]) {
 
 	loadData();
 
+    Pointless::Camera camera;
+
 	bool stop = false;
     while (!stop) {
         SDL_PumpEvents();
@@ -65,12 +68,6 @@ int main(int argc, char *argv[]) {
 
         glActiveTexture(GL_TEXTURE0 + 0);
         glBindTexture(GL_TEXTURE_2D, texture->glHandle);
-
-		float R = 5.0f;
-		float angle = SDL_GetTicks() / 1000.0f;
-		glm::mat4x4 viewMatrix = glm::lookAt(glm::vec3(R * sin(angle), 0.0f, R * cos(angle)), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::mat4x4 projMatrix = glm::perspective(45.0f, 800.0f / 600.0f, 0.1f, 100.0f);
-		glm::mat4x4 m = projMatrix * viewMatrix;
 		
 		shader->bind();
 		
@@ -78,7 +75,7 @@ int main(int argc, char *argv[]) {
 		tex0->setInteger(0);
 
 		auto MODELVIEW = shader->getUniform("MODELVIEW");
-		MODELVIEW->setMatrix(m);
+		MODELVIEW->setMatrix(camera.getViewProjectionMatrix());
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
