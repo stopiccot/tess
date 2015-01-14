@@ -34,6 +34,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif()
 
 # Includes
+include_directories("lib/common/glm")
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")

@@ -12,7 +12,7 @@ void loadData() {
     
     mesh = std::make_shared<Pointless::Mesh>();
     
-    mesh->vertices = { { -0.5f, 0.5f, 0.0f }, { 0.5f, 0.5f, 0.0f }, { 0.5f, -0.5f, 0.0f }, { -0.5f, -0.5f, 0.0f } };
+    mesh->vertices = { { -1.0f, 1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f }, { 1.0f, -1.0f, 0.0f }, { -1.0f, -1.0f, 0.0f } };
     mesh->uvs = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
     mesh->indicies = { 0, 1, 2, 0, 2, 3 };
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 
 	loadData();
 
-    bool stop = false;
+	bool stop = false;
     while (!stop) {
         SDL_PumpEvents();
             
@@ -66,11 +66,20 @@ int main(int argc, char *argv[]) {
         glActiveTexture(GL_TEXTURE0 + 0);
         glBindTexture(GL_TEXTURE_2D, texture->glHandle);
 
+		float R = 5.0f;
+		float angle = SDL_GetTicks() / 1000.0f;
+		glm::mat4x4 viewMatrix = glm::lookAt(glm::vec3(R * sin(angle), 0.0f, R * cos(angle)), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4x4 projMatrix = glm::perspective(45.0f, 800.0f / 600.0f, 0.1f, 100.0f);
+		glm::mat4x4 m = projMatrix * viewMatrix;
+		
 		shader->bind();
 		
-        GLint tex0 = shader->getUniform("tex0");
-        glUniform1i(tex0, 0);
+		auto tex0 = shader->getUniform("tex0");
+		tex0->setInteger(0);
 
+		auto MODELVIEW = shader->getUniform("MODELVIEW");
+		MODELVIEW->setMatrix(m);
+        
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
         

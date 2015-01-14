@@ -4,7 +4,8 @@
 
 using namespace Pointless;
 
-std::vector<uint8_t> loadFileContentsToBuffer(const char* filename) {
+std::vector<uint8_t> loadFileContentsToBuffer(const char* filename)
+{
 	std::vector<uint8_t> result;
 
 	FILE* file = fopen(filename, "rb");
@@ -23,7 +24,8 @@ std::vector<uint8_t> loadFileContentsToBuffer(const char* filename) {
 	return result;
 }
 
-GLuint Shader::compileShaderComponent(GLenum type, const char* shaderFile) {
+GLuint Shader::compileShaderComponent(GLenum type, const char* shaderFile)
+{
     std::vector<uint8_t> shaderSource = loadFileContentsToBuffer(shaderFile);
     shaderSource.push_back(0);
     
@@ -54,7 +56,8 @@ GLuint Shader::compileShaderComponent(GLenum type, const char* shaderFile) {
     return shader;
 }
 
-std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const char* fragmentShaderFile) {
+std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const char* fragmentShaderFile)
+{
     std::shared_ptr<Shader> result = std::make_shared<Shader>();
     
     result->vertexShader = compileShaderComponent(GL_VERTEX_SHADER, vertexShaderFile);
@@ -105,14 +108,36 @@ std::shared_ptr<Shader> Shader::loadFromFile(const char* vertexShaderFile, const
 	return result;
 }
 
-GLint Shader::getUniform(const char* varName) {
-    GLint varGLHandle = glGetUniformLocation(program, varName);
-    if (varGLHandle < 0) {
-        printf("ERROR GETTING UNIFORM VAR \"%s\"\n", varName);
-    }
-    return varGLHandle;
+ShaderVariable* Shader::getUniform(const char* varName)
+{
+	auto v = vars.find(varName);
+	if (v != vars.end()) {
+		return v->second;
+	}
+
+	auto var = new ShaderVariable();
+	var->glVar = glGetUniformLocation(program, varName);
+	if (var->glVar < 0) {
+		printf("ERROR GETTING UNIFORM VAR \"%s\"\n", varName);
+		delete var;
+		return nullptr;
+	}
+	
+	vars[varName] = var;
+	return var;
 }
 
-void Shader::bind() {
+void Shader::bind()
+{
 	glUseProgram(program);
+}
+
+void ShaderVariable::setInteger(int value)
+{
+	glUniform1i(glVar, value);
+}
+
+void ShaderVariable::setMatrix(const glm::mat4x4& value)
+{
+	glUniformMatrix4fv(glVar, 1, false, (float*)&value);
 }

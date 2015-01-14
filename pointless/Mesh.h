@@ -8,8 +8,8 @@ namespace Pointless
 	class Mesh
 	{
 	public:
-		std::vector<vec3> vertices;
-		std::vector<vec2> uvs;
+		std::vector<glm::vec3> vertices;
+		std::vector<glm::vec2> uvs;
 		std::vector<uint16_t> indicies;
         
         void bake();

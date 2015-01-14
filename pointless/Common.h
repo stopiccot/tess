@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <vector>
 #include <memory>
+#include <map>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #ifdef _WIN32
 	#include <direct.h>
@@ -19,22 +22,5 @@
 	#include <SDL2/SDL_opengl.h>
     #include <SDL2_image/SDL_image.h>
 #endif
-
-namespace Pointless {
-    struct vec2 {
-        float u;
-        float v;
-        
-        vec2(float u, float v) : u(u), v(v) {}
-    };
-    
-    struct vec3 {
-        float x;
-        float y;
-        float z;
-        
-        vec3(float x, float y, float z) : x(x), y(y), z(z) {}
-    };
-}
 
 #endif
