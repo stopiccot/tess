@@ -116,8 +116,8 @@ ShaderVariable* Shader::getUniform(const char* varName)
 	}
 
 	auto var = new ShaderVariable();
-	var->glVar = glGetUniformLocation(program, varName);
-	if (var->glVar < 0) {
+	var->glHandle = glGetUniformLocation(program, varName);
+	if (var->glHandle < 0) {
 		printf("ERROR GETTING UNIFORM VAR \"%s\"\n", varName);
 		delete var;
 		return nullptr;
@@ -134,10 +134,10 @@ void Shader::bind()
 
 void ShaderVariable::setInteger(int value)
 {
-	glUniform1i(glVar, value);
+	glUniform1i(glHandle, value);
 }
 
 void ShaderVariable::setMatrix(const glm::mat4x4& value)
 {
-	glUniformMatrix4fv(glVar, 1, false, (float*)&value);
+	glUniformMatrix4fv(glHandle, 1, false, (float*)&value);
 }

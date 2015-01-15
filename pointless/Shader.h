@@ -16,7 +16,7 @@ namespace Pointless
 		void setMatrix(const glm::mat4x4& value);
 
 	private:
-		GLint glVar;
+		GLint glHandle;
 	};
 
 	class Shader

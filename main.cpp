@@ -4,12 +4,14 @@
 #include "pointless/Camera.h"
 
 std::shared_ptr<Pointless::Shader> shader;
-std::shared_ptr<Pointless::Texture> texture;
+std::shared_ptr<Pointless::Texture> colorTexture;
+std::shared_ptr<Pointless::Texture> normalTexture;
 std::shared_ptr<Pointless::Mesh> mesh;
 
 void loadData() {
     shader = Pointless::Shader::loadFromFile("../data/shaders/vertex_shader.glsl", "../data/shaders/pixel_shader.glsl");
-    texture = Pointless::Texture::loadFromFile("../data/textures/wall_color_512.png");
+    colorTexture = Pointless::Texture::loadFromFile("../data/textures/wall_color_512.png");
+    normalTexture = Pointless::Texture::loadFromFile("../data/textures/wall_normals_512.png");
     
     mesh = std::make_shared<Pointless::Mesh>();
     
@@ -67,12 +69,18 @@ int main(int argc, char *argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glActiveTexture(GL_TEXTURE0 + 0);
-        glBindTexture(GL_TEXTURE_2D, texture->glHandle);
+        glBindTexture(GL_TEXTURE_2D, colorTexture->glHandle);
+
+        glActiveTexture(GL_TEXTURE0 + 1);
+        glBindTexture(GL_TEXTURE_2D, normalTexture->glHandle);
 		
 		shader->bind();
 		
-		auto tex0 = shader->getUniform("tex0");
-		tex0->setInteger(0);
+		auto colorTexture = shader->getUniform("colorTexture");
+		colorTexture->setInteger(0);
+
+        auto normalTexture = shader->getUniform("normalTexture");
+        normalTexture->setInteger(1);
 
 		auto MODELVIEW = shader->getUniform("MODELVIEW");
 		MODELVIEW->setMatrix(camera.getViewProjectionMatrix());
