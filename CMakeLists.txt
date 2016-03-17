@@ -6,13 +6,13 @@ set(CMAKE_FRAMEWORK_PATH "lib/osx")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	set(CMAKE_INCLUDE_PATH
-		"lib/windows/SDL2-2.0.3/include"
+		"lib/windows/SDL2-2.0.4/include"
 		"lib/windows/SDL2_image-2.0.0/include"
 		"lib/windows/glew-1.11.0/include"
 	)
 
 	set(CMAKE_LIBRARY_PATH
-		"lib/windows/SDL2-2.0.3/lib/x64"
+		"lib/windows/SDL2-2.0.4/lib/x64"
 		"lib/windows/SDL2_image-2.0.0/lib/x64"
 		"lib/windows/glew-1.11.0/lib/Release/x64"
 	)
