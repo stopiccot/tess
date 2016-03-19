@@ -32,9 +32,7 @@ int main(int argc, char *argv[]) {
         printf("SDL ERROR: \"%s\"", SDL_GetError());
     }
 
-#ifdef _WIN32
 	glewInit();
-#endif
 
 	char buffer[10 * 1024];
 #ifdef _WIN32

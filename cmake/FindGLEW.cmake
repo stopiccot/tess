@@ -58,7 +58,7 @@ endif ()
 if (${CMAKE_HOST_UNIX})
     find_path( GLEW_INCLUDE_DIR
         NAMES
-            GL/glew.h
+            GL/glew.h glew.h
         PATHS
             "${GLEW_LOCATION}/include"
             "$ENV{GLEW_LOCATION}/include"
@@ -66,8 +66,8 @@ if (${CMAKE_HOST_UNIX})
             /usr/local/include
             /sw/include
             /opt/local/include
-            NO_DEFAULT_PATH
-            DOC "The directory where GL/glew.h resides"
+        PATH_SUFFIXES GLEW
+        DOC "The directory where GL/glew.h resides"
     )
     find_library( GLEW_LIBRARY
         NAMES
@@ -82,7 +82,6 @@ if (${CMAKE_HOST_UNIX})
             /usr/local/lib
             /sw/lib
             /opt/local/lib
-            NO_DEFAULT_PATH
             DOC "The GLEW library")
 endif ()
 

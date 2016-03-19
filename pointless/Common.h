@@ -17,7 +17,7 @@
 	#include <SDL_opengl.h>
     #include <SDL_image.h>
 #else
-    #include <OpenGL/gl3.h>
+    #include <GLEW/glew.h>
 	#include <unistd.h>
 	#include <SDL2/SDL.h>
 	#include <SDL2/SDL_opengl.h>

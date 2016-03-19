@@ -28,18 +28,12 @@ endif()
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(OpenGL REQUIRED)
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	find_package(GLEW REQUIRED)
-endif()
+find_package(GLEW REQUIRED)
 
 # Includes
 include_directories("lib/common/glm")
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	include_directories(${GLEW_INCLUDE_DIR})
-endif()	
+include_directories(${GLEW_INCLUDE_DIR})
 
 # Target
 add_executable(tess 
@@ -52,8 +46,4 @@ add_executable(tess
 )
 
 # Libs
-target_link_libraries(tess ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${OPENGL_LIBRARIES})
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	target_link_libraries(tess ${GLEW_LIBRARY})
-endif()
+target_link_libraries(tess ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})
